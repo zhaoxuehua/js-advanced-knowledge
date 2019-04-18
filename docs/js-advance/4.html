@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        //继承就是当前没有的属性和方法，别人有，拿过来用 ，就是继承
+        var o = {}
+        var obj = {
+            name :"张三",
+            age : 18,
+            sayHello :function () {
+                console.log("Hello world");
+            }
+        }
+        //1、混入式继承
+        for(var k  in obj){
+            o[k] = obj[k];
+        }
+        console.log(o);
+
+        //2、原型继承
+        //利用原型中的成员可以被和其相关的对象共享这一特性，可以实现继承
+        //这种实现继承的方式，就叫做原型继承
+
+        //2-1.给原型对象中添加成员（通过对象的动态特性） 不是严格意义上的继承
+        function Person(name, age){
+            this.name = name;
+            this.age = age;
+        }
+
+        Person.prototype.sayHello = function () {
+            console.log("我想死你了");
+        }
+
+        var p = new Person("冯巩",50);
+        p.sayHello();
+
+        //这里的p对象就继承原型
+
+        //2-2.直接替换原型对象
+        function Person(name, age){
+            this.name = name;
+            this.age = age;
+        }
+
+        Person.prototype.sayHi = function () {
+            console.log("Hey man");
+        }
+
+        var parent = {
+            sayHello : function () {
+                console.log("我想你死了");
+            }
+        }
+//
+        Person.prototype = parent;
+
+        var p = new Person("冯巩",50);
+        p.sayHello();
+//        p.sayHi();  替换之后，sayHi方法不复存在
+
+        //p对象继承了原型对象（parent对象）
+        //注意：使用替换原型的方式实现继承的时候，原有原型中的成员就会丢失
+
+        //2-3.利用混入的方式给原型对象添加成员
+//        function Person(name, age){
+//            this.name = name;
+//            this.age = age;
+//        }
+//
+//        Person.prototype.sayHi = function () {
+//            console.log("Hey man");
+//        }
+//
+//        var parent = {
+//            sayHello : function () {
+//                console.log("我想你死了");
+//            }
+//        }
+//
+//        for(var k in parent){
+//            Person.prototype[k] = parent[k];
+//        }
+//
+//        var p = new Person("冯巩",50);
+//        p.sayHello();
+
+        //也是实现了继承 p继承自原型对象
+
+
+  var arr = [1, 2, 3];
+
+//开发人员A想要的sayHello
+Array.prototype.sayHello =function () {
+    console.log("来呀，互相伤害啊");
+}
+
+//开发人员B想要的sayHello
+Array.prototype.sayHello =function () {
+    console.log("我是一个数组，很高兴认识你，呵呵")
+}
+
+//如果直接修改内置对象的原型，会印象整个开发团队
+arr.sayHello();
+
+
+//扩展内置对象（就是给内置对象新增成员）
+//        var str = "+++abc+++";
+//        console.log(str.trim("+"));
+
+//作业：扩展String内置对象，强化trim功能
+
+//如何安全的扩展一个内置对象
+
+function MyArray() {
+    //我自己的属性
+    this.name = "我是一个数组";
+    this.sayHello = function () {
+        console.log("我的sayHello方法");
+    }
+}
+//3、繼承的应用
+var arr = new Array();
+//继承之后，我的数组中就有了原生数组对象的所有的属性和方法
+MyArray.prototype = arr;
+
+MyArray.prototype.safdaf =function () {
+
+}
+
+//myArr这个对象就继承自arr
+var myArr = new MyArray();
+
+myArr.push(100);
+myArr.push(2,3,4,5)
+console.log(myArr);
+
+
+var arr =  new Array();
+function BdeArray(){
+    this.sayhello=function () {
+
+    }
+}
+BdeArray.prototype = [];
+
+var arr = new BdeArray();
+var arr = new MyArray();
+
+//原型链结构 
+//1.什么是原型链？
+        //每个构造函数都有原型对象
+        //每个对象都会有构造函数
+        //每个构造函数的原型都是一个对象
+        //那么这个原型对象也会有构造函数
+        //那么这个原型对象的构造函数也会有原型对象
+        //这样就会形成一个链式的结构，称为原型链
+
+        //2.原型链结构的基本形式
+        function Person(name){
+            this.name = name;
+        }
+
+        var p = new Person();
+
+        //p ---> Person.prototype --->Object.prototype---->null
+
+        //属性搜索原则：
+        //1.当访问一个对象的成员的时候，会现在自身找有没有,如果找到直接使用，
+        //2.如果没有找到，则去当前对象的原型对象中去查找，如果找到了直接使用，
+        //3.如果没有找到，继续找原型对象的原型对象，如果找到了，直接使用
+        //4.如果没有找到，则继续向上查找，直到Object.prototype，如果还是没有，就报错
+
+
+//原型继承概念
+        //通过修改原型链结构实现的继承，就叫做原型继承
+
+
+//复杂的原型链  动物--->人---->老师---->坏老师
+
+        function Animal(){
+            this.gender = "male";
+        }
+        Human.prototype = new Animal();
+        Human.prototype.constructor = Human;
+        function Human(){
+            this.actionWay = "走路";
+        }
+        Teacher.prototype = new Human();
+        Teacher.prototype.constructor = Teacher;
+        function Teacher(){
+            this.skill = "教书";
+        }
+        BadTeacher.prototype = new Teacher();
+        BadTeacher.prototype.constructor = BadTeacher;
+        function BadTeacher(){
+            this.name = "吕超";
+        }
+        var t = new BadTeacher();
+        console.log(t);
+
+  //经典继承的语法
+        //Object.create(obj)
+        //返回值为一个对象，继承自参数中的obj
+        //这个方法是ES5中出来的，所以存在兼容性问题
+
+//        var o = {
+//            name:"周三"
+//        };
+
+//        var obj = Object.create(o);
+//
+//        console.log(obj.name);
+
+        //如何处理Object.create的兼容性问题
+
+        var obj = {
+            name:"周三"
+        };
+
+        //检测浏览器的能力，如果没有Object.create方法就给他添加一个（不推荐使用）
+        if(Object.create){
+            var o = Object.create(obj);
+        }else{
+            Object.create = function () {
+                function F() {
+                }
+                F.prototype = obj;
+                var o = new F();
+            }
+            var o = Object.create(obj);
+        }
+
+        //自己定义个函数
+        function create(obj){
+            if(Object.create){
+                return Object.create(obj);
+            }else{
+                function F() {
+                }
+                F.prototype = obj;
+                return new F();
+            }
+        }
+    </script>
+</head>
+<body>
+    <h3>
+        学习了混入式继承<br>
+        原型继承<br>
+        经典继承
+    </h3>
+    <a href="">基本原型链结构<br>
+        <img src="images/原型链.png" alt="">
+    </a>
+
+</body>
+</html>

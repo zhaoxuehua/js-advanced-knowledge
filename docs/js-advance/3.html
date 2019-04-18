@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function Person(name, status) {
+            this.name = name;
+            this.status = status;
+            this.act = function () {
+                console.log("演戏");
+            };
+            this.exercise = function () {
+                console.log("就不强身健体，就要保卫祖国");
+            }
+        }
+        var p = new Person("xyz", "single");
+
+        //1、原型是个什么
+        //在构造函数创建出来的时候，系统会默认的帮构造函数创建并关联一个神秘的对象，这个对象就是原型
+        //原型默认的是一个空的对象
+        //原型对象在创建出来的时候，会默认的有一个constructor属性
+        //指向对应的构造函数
+        //        var o = Person.prototype;
+        //        Person.prototype.constructor
+
+
+        //2、原型的作用
+        //原型中的属性和方法 可以被使用该构造函数创建出来的对象使用
+
+        //3、如何访问构造函数的原型
+        // 构造函数.prototype
+        //1.通过构造函数访问原型
+        //        Person.prototype
+
+        Person.prototype.msg = "在不在！";
+        var p = new Person();
+
+        //2.通过对象访问原型
+
+        //__proto__属性
+        //__proto__是一个非标准的属性
+        //为了保证通用性 这个属性不推荐使用
+
+        //__proto__属性的用途
+        //主要用来做调试
+        console.log(p.__proto__);
+
+        p.__proto__.sayHello = function () {
+            console.log("你好")
+        }
+
+        p.sayHello();
+
+        console.log(Person.prototype);
+        console.log(p.prototype); //注意 prototype是构造函数的属性，跟对象没有关系
+
+        //4、如何给原型对象添加属性和方法？
+        //使用对象的动态特性
+        Person.prototype.exercise = function () {
+            console.log("强身健体，保卫祖国");
+        }
+
+        p.exercise();
+        //注意：当使用对象去访问属性和方法的时候
+        //会首先在对象自己内部进行查找，如果找到了，就直接使用
+        //如果没有找到，就去原型中查找，查找到之后，使用
+        //如果原型中还没有， 如果是属性，就是Undefined
+        //如果是方法，就报错 p.sing();  //本身和原型中都没有 就报错、
+
+        //5使用原型解决构造函数存在的问题（1.解决全局变量污染问题 2.代码结构混乱问题）
+        function Person(name, age, gender) {
+            this.name = name;
+            this.age = age;
+            this.gender = gender;
+            //            this.sayHello = function () {
+            //                console.log("你好我是" + this.name);
+            //            }
+        }
+
+        var p = new Person("张学友", 18, "male");
+
+        var p1 = new Person("刘德华", 19, "male");
+
+        Person.prototype.sayHello = function () {
+            console.log("你好我是" + this.name);
+        }
+
+        Person.prototype["sing"] = function () {
+            console.log("一千个伤心的母牛");
+        }
+
+        p.sayHello();
+        p1.sayHello();
+
+        p.sing();
+        p1.sing();
+
+        //如何使用原型来解决构造函数存在的问题？
+        //构造函数的原型对象中的成员，可以被该构造函数创建出来的所有对象访问
+        //而且，所有的对象共享该对象
+        //所以，我们可以将构造函数中需要创建的函数，放到原型对象中存储
+        //这样就解决 全局变量污染的问题 以及 代码结构混乱的问题
+
+        //6实例化
+        //实例化
+        //通过构造函数创建对象的过程 就叫做实例化
+
+        function Person() {
+
+        }
+
+        var p = new Person(); //实例化
+
+
+        //7原型的使用方法
+        //原型的使用方法
+        //1.利用对象的动态特性给原型对象添加成员
+        //2.直接替换原型对象
+
+        //如果使用第二种方式使用原型，那么会出现如下问题：
+        //在替换原型之前创建的对象的原型 和 在替换原型对象之后的创建的对象
+        //的原型 不是同一个！
+
+        Person.prototype.sayHello = function () {
+            console.log("Nice to meet you all");
+        }
+
+        var p = new Person("刘能", 18, "male");
+        p.sayHello();
+
+        //替换了原型对象
+        Person.prototype = {
+            msg: "你猜我在不在"
+        };
+
+
+        //7使用原型的注意事项
+        //1.使用对象访问属性的时候，如果在本身内找不到就会去原型中查找
+        //但是使用点语法进行属性赋值的时候，并不会去原型中进行查找
+        //使用点语法赋值的时候如果，对象中不存在该属性，就会给该对象新增该属性，而不会去修改原型中的属性
+
+        //2.如果在原型中的属性是引用类型的属性，
+        //那么所有的对象共享该属性，并且一个对象修改了该引用类型属性中的成员，其他对象也都会受影响
+
+        //3.一般情况下不会将属性放到原型对象中
+        //一般情况下原型中只会放需要共享的方法
+
+        function Person() {
+
+        }
+
+        //        Person.prototype.name = "张三";
+        //        Person.prototype.age = 18;
+        //
+        //        var p = new Person();
+        //        console.log(p.name);
+        //
+        //        p.name = "李四";
+        ////        console.log(p.name);
+        //
+        //        var p1 = new Person();
+        //        console.log(p1.name);
+
+        var x = {
+            brand: "laosilaisi",
+            type: "huanying"
+        };
+
+        Person.prototype.car = x;
+        //
+        var p = new Person();
+        //
+        console.log(p.car.brand);
+
+        Person.prototype.car = {
+            brand: "BYD"
+        };
+
+        var p1 = new Person();
+        console.log(p1.car.brand);
+
+        p.car = {
+
+        };
+//
+//        var p1 = new Person();
+//        console.log(p1.car.brand);
+
+//8、Object.prototype的成员
+  //1.constructor
+        //原型对象内的一个属性，指向该原型对象相关联的构造函数
+
+        //2.hasOwnProperty
+        //一个方法，用来判断对象本身（不包含原型）是否拥有某个属性
+
+//        function Person(){
+////            this.name = "王九"
+//        }
+//
+//        Person.prototype.name = "张三";
+//
+//        var p = new Person();
+//        console.log(p.name);
+
+//        console.log(p.hasOwnProperty("__proto__"));
+
+
+        //3.propertyIsEnumerable
+        //    1. 判断属性是否属于对象本身
+        //    2. 判断属性是否可以被遍历
+//        console.log(p.propertyIsEnumerable("name"));
+
+
+        //   Object.defineProperty();
+        // 使用以上方法添加属性的时候，可以附加一些信息，
+        // 例如这个属性是否可写 可读  可遍历
+
+//        for(var k in p){
+//            console.log(k);
+//        }
+
+        //4. toString 和  toLocaleString
+//        var o = {};
+////        console.log(o.toString());
+////        console.log(o.toLocaleString());
+//
+//        var now = new Date();
+//        console.log(now.toString());
+//        console.log(now.toLocaleString());
+
+        //5.valueOf
+        //获取当前对象的值
+
+        function Person(){
+
+}
+var p = new Person();
+
+//在对象参与运算的时候
+//1.默认的会先去调用对象的valueOf方法，
+//2.如果valueOf获取到的值，无法进行运算 ，就去去调用p的toString方法  最终做的就是字符串拼接的工作
+console.log( 1 + p);
+
+//6. __proto__
+//原型对象对象中的属性
+//可以使用 对象.__proto__ 去访问原型对象
+
+
+
+
+    </script>
+</head>
+
+<body>
+<h2>
+    学习了原型<br>
+    原型的作用<br>
+原型的使用方法<br>
+原型使用的注意事项<br>  
+Object.prototype的成员等
+
+</h2>
+</body>
+
+</html>

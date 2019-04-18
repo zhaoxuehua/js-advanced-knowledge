@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        //作用域
+        //作用：起作用
+        //域：范围
+        //起作用的范围
+
+        //变量起作用的范围就是变量的作用域
+
+        //1.块级作用域
+        //JavaScript中没有块级作用域
+
+        //如果有块级作用域下面的代码的显示结果为 undefined undefined
+//        for(var i=0; i<10;i++){
+//            var num = i;
+//        }
+//        console.log(i);
+//        console.log(num);
+
+        //2.词法作用域
+        //就是在代码写好的那一刻，变量的作用域就已经确定了，这种作用域，就是所谓的词法作用域
+        //和词法作用域相对的叫动态作用域 js中是词法作用域不是动态作用域
+
+//        var a = 123;
+
+
+        function f2(){
+            var a = 456;
+            function f1(){
+                console.log(a);
+            }
+        }
+
+
+
+        f2();
+
+        //3.在JavaScript中唯一能产生作用域的东西是 函数！
+
+        var a = 1;
+        function test(){
+            var b = 10;
+        }
+
+
+        //4.词法作用域的规则
+        //函数允许访问函数外的数据.
+        //整个代码结构中只有函数可以限定作用域.
+        //作用域规则首先使用提升规则分析
+        //如果当前作用域中有了该变量, 就不考虑外面的同名变量
+
+//提升规则讲解
+//js代码的执行分为两个步骤
+        //1.预解析
+            //提升（hoisting）
+            //JavaScript代码在预解析阶段，会对以var声明的变量名，和function开头的语句块，进行提升操作
+
+        //2.执行
+
+        //        func();
+        //        function func(){
+        //            alert("Funciton has been called");
+        //        }
+
+                //变量的提升
+        //        alert(a);
+        //        var a = 1;
+
+                //提升之后的代码模拟
+        //        var a;
+        //        alert(a);
+        //        a = 1;
+
+                //函数同名，如何提升
+                //预处理的时候，会将两个函数全部提升，但是后面的函数会覆盖掉前面函数
+        //        func1();  //last
+        //        function func1(){
+        //            console.log('This is first func1');
+        //        }
+        //
+        //        func1();  //last
+        //        function func1(){
+        //            console.log('This is last func1');
+        //        }
+        //        //预解析提升后的代码
+        //        function func1(){
+        //            console.log('This is first func1');
+        //        }
+        //
+        //        function func1(){
+        //            console.log('This is last func1');
+        //        }
+        //        func1();  //last
+        //        func1();  //last
+
+                //变量和函数同名
+                //在提升的时候，如果有变量和函数同名，会忽略掉变量，只提升函数
+                alert(foo); //undefined  没有函数体
+                function foo(){}
+                var foo = 2;
+                alert(foo); //2
+                //预解析 提升后的代码
+                function foo(){};
+                alert(foo);
+                foo=2;
+                alert(foo);
+
+// 变量的提升分作用域的
+        //        console.log(a);
+        //        var a = 123;
+
+
+        //        var num = 456;
+        //        function test(){
+        //            console.log(num);
+        //            var num = 10;
+        //        }
+        //        test();
+
+        //        var num;
+        //        num = 456;
+        //        function test(){
+        //            var num;
+        //            console.log(num);
+        //            num = 10;
+        //        }
+
+                var num = 456;
+                function f1() {
+                    console.log(num);
+                    num = 10;
+                }
+                f1();
+                console.log(num);
+
+                                //提升之后的代码
+                        //        var num;
+                        //        function f1(){
+                        //            console.log(num);
+                        //            num = 10;
+                        //        }
+                        //        num = 456;
+                        //        f1();
+
+
+ //函数表达式
+        //函数表达式不会被提升
+        func();
+        var func = function(){
+            alert("你猜我会不会被调用");
+        }
+
+        //提升后的代码
+        var func;
+        func();
+        func = function(){
+            alert("你猜我会不会被调用");
+        };
+
+//作用域链
+//只要是函数就可以创造作用域
+        //函数中又可以再创建函数
+        //函数内部的作用域可以访问函数外部的作用域
+        //如果有多个函数嵌套，那么就会构成一个链式访问结构，这就是作用域链
+
+        //f1--->全局
+        function f1(){
+            //f2--->f1--->全局
+            function f2(){
+                //f3---->f2--->f1--->全局
+                function f3(){
+                }
+                //f4--->f2--->f1---->全局
+                function f4(){
+                }
+            }
+            //f5--->f1---->全局
+            function f5(){
+            }
+        }
+
+//变量的搜索原则
+        //1.在使用变量的时候
+            //* 首先在所在的作用域中查找
+            //* 如果找到了 就直接使用
+            //* 如果没有找到 就去上级作用域中查找
+        //2.重复以上步骤
+            //* 如果直到0级作用域链也就是全局作用域还没有找到，报错
+
+            
+//作用域分段
+  foo()
+        function foo(){
+            console.log("第一个script标签内的函数")
+        };
+    </script>
+
+    <script>
+        foo()
+        function foo(){
+            console.log("第2个script标签内的函数")
+        }
+    </script>
+</head>
+<body>
+<p>
+    作用域学习及作用域链js代码
+</p>
+</body>
+</html>

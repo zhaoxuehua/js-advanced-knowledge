@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.onload=function(){
+        
+        //面向过程的思维方式：
+            //就是把解决问题的关注点，放到解决问题的每一个详细的步骤上面！
+
+        //面向对象的思维方式：
+            //就是把解决问题的关注点，放到解决问题需要的一些列对象身上
+
+        //举例：去餐馆吃饭
+            //面向过程的思维方式
+            //1.进餐馆
+            //2.点菜
+            //3.做菜
+            //4.上菜
+            //5.吃菜
+            //6.结账
+            //7.拍拍PG走人
+
+            //面向对象的思维方式
+            //1.我
+            //2.餐馆
+
+        //面向对象的相关概念
+       //1、什么是对象！！！！
+            //万物皆对象
+
+        //2、对象的特征
+            //对象的特征就是用来  ： 描述对象的相关信息
+            //比如一个人对象，特征就有：name  age  gender  height
+
+        //3、对象的行为
+            //对象行为就是描述对象的行为
+            //比如一个人对象，行为就有：吃 跑 跳 睡 唱 抽烟 喝酒 烫头
+
+
+        //4、在JS当中 什么是对象？
+            //键值对儿的组合就是对象
+
+        //5、现实生活中的对象的特征对应到JS当中是对象的属性！
+
+        //6、现实生活中的对象的行为对应到JS当中就是对象方法！
+
+        //例子：写一个JavaScript对象来描述一个学生， 学生的信息（学号 年龄 班级 电话）
+        // var student = {
+        //     id : 100,
+        //     grade : "幼儿园",
+        //     class : "大2班",
+        //     phone : 13888888888
+        // };
+
+
+        //如何在一句话中找出所有的对象
+        //名词提炼法！！！
+        //小明在公交车上牵着一只叼着香肠的狗
+
+
+
+
+          //要求创建出来一个div 并且设置样式，然后加到body标签当中
+
+            //使用面向过程的思维方式来解决js问题
+            //1.创建div
+//            var div = document.createElement("div");
+//            //2.设置div的样式
+//            div.style.height = "200px";
+//            div.style.width = "200px";
+//            div.style.border = "1px solid pink";
+//            //3.添加div到body中去
+//            document.body.appendChild(div);
+
+
+            //使用面向对象的思维方式来解决js问题
+          //  $("body").append("<div style='width:200px;height:200px;border:1px solid pink'></div>")
+
+        //面向对象是对面向过程的封装，有了面向对象并不意味着，就可以抛弃面向过程
+
+
+//面向对象的编程举例
+//设置页面中的div和p的边框为1px solid red
+            //1.设置div的样式
+
+            //1.1、获取div们
+            var divs = document.getElementsByTagName("div");
+            //1.2、遍历获取到的div们
+            for (var i = 0; i < divs.length; i++) {
+               // var div = divs[i];
+                //1.3、在循环中给div设置样式
+                divs[i].style.border = "1px solid red";
+            }
+
+            //2.设置p的样式
+            var ps = document.getElementsByTagName("p");
+            for (var j = 0; j < ps.length; j++) {
+                ps[j].style.border = "1px solid red";
+            }
+
+
+            //编写代码的时候的原则：DRY
+            //Dont repeat yourself
+
+                
+    //封装举例
+        var divs = itcastQuery.tag("div");
+        itcastQuery.setStyle(divs);
+
+        var ps = itcastQuery.tag("p");
+        itcastQuery.setStyle(ps);
+        }
+
+
+
+
+        var itcastQuery = {
+        //获取dom元素的方法们
+        getEle:{ 
+            tag: function (tagName){
+                return document.getElementsByTagName(tagName);
+            },
+            id: function (id){
+                return document.getElementById(id);
+            }
+            //通过classname获取元素的方法
+            //....
+        },
+        //设置样式的方法们
+        setCss: {
+            setStyle: function (elements){
+                for (var j = 0; j < elements.length; j++) {
+                    var ele = elements[j];
+                    ele.style.border = "1px solid red";
+                }
+            },
+            css:function(option){},
+            addClass:function(){},
+            //..
+        }
+        //事件处理模块
+
+    
+
+        }
+    </script>
+
+</head>
+<body>
+<h3>面向过程的思维方式：就是把解决问题的关注点，放到解决问题的每一个详细的步骤上面！</h3>
+<h3>面向对象的思维方式：就是把解决问题的关注点，放到解决问题需要的一些列对象身上</h3>
+<h4> 面向对象的相关概念<br>
+        1、什么是对象！！！！<br>
+             万物皆对象<br>
+ 
+         2、对象的特征<br>
+             对象的特征就是用来  ： 描述对象的相关信息<br>
+             比如一个人对象，特征就有：name  age  gender  height<br>
+ 
+         3、对象的行为<br>
+             对象行为就是描述对象的行为<br>
+             比如一个人对象，行为就有：吃 跑 跳 睡 唱 抽烟 喝酒 烫头<br>
+ 
+ 
+         4、在JS当中 什么是对象？<br>
+             键值对儿的组合就是对象<br>
+ 
+         5、现实生活中的对象的特征对应到JS当中是对象的属性！<br>
+ 
+         6、现实生活中的对象的行为对应到JS当中就是对象方法！</h4>
+
+         <h4>为什么学习面向对象<br>
+            面向对象是对面向过程的封装，有了面向对象并不意味着，就可以抛弃面向过程
+
+         </h4>
+
+         <h5>
+                好处：使用函数将代码封装，使得复用性更高<br>
+        
+                使用函数封装带来的问题：<br>
+                1.全局变量污染<br>
+                2.代码结构不够清晰，维护不方便<br>
+        
+        
+                使用对象进行封装后的优势<br>
+                1.暴露在全局的只有一个对象名 不会造成全局变量污染<br>
+                2.使用对象将代码进行功能模块的划分，有利于日后的维护<br>
+        </h5>
+        <h6>以及编写了获取元素与设置样式的方法</h6>
+
+         <div>1</div>
+<div>2</div>
+<div>3</div>
+
+<p>我是第1个p元素</p>
+<p>我是第2个p元素</p>
+<p>我是第3个p元素</p>
+</body>
+</html>

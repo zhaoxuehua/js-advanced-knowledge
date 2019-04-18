@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        //缓存：cache
+
+        //缓存的作用，就是将一些常用的数据，存储起来，提供使用，提升性
+
+        //CDN Content Delivery Network
+
+        //数据库  高并发
+        //非关系型数据库（内存型数据库） MongoDB  Redis
+
+        //网站静态页面缓存机制
+        //将网页静态化，存储在服务器端
+
+
+ //递归求解菲波那切数列的问题
+   //函数执行次数太多了，性能低       
+        var count = 0;
+        function fib(n){
+            count ++;
+            if(n <= 2){
+                return 1;
+            }
+            return fib(n - 1) + fib(n - 2);
+        }
+
+        fib(5);
+        console.log(count);
+        count = 0;
+        fib(6);
+        console.log(count);
+        count = 0;
+        fib(20);
+        console.log(count);
+        count = 0;
+        fib(21);
+        console.log(count);
+
+//解决办法
+   //定义一个缓存数组，存储已经计算出来的斐波那契数
+        //1.计算的步骤
+            //1.先从cache数组中去取想要获取的数字
+            //2.如果获取到了，直接使用
+            //3.如果没有获取到，就去计算，计算完之后，把计算结果存入cache，然后将结果返回
+
+                   var cache = [];
+                   function fib(n){
+                       if(cache[n] !== undefined){
+                           return cache[n];
+                       }
+                       if(n <= 2){
+                           cache[n] = 1;
+                           return 1;
+                       }
+                       var temp = fib(n - 1) + fib(n - 2);
+                       cache[n] = temp;
+                       return temp;
+                   }
+                   console.log(fib(6));
+
+//jQuery缓存实现
+         function createCache(){
+            //cache对象中以键值对的形式存储我们的缓存数据
+            var cache = {};
+            //index数组中该存储键，这个键是有顺序，可以方便我们做超出容量的处理
+            var index = [];
+            return function (key, value) {
+                //如果传了值，就说名是设置值
+                if(value !== undefined){
+                    //将数据存入cache对象，做缓存
+                    cache[key] = value;
+                    //将键存入index数组中，以和cache中的数据进行对应
+                    index.push(key);
+
+                    //判断缓存中的数据数量是不是超出了限制
+                    if(index.length >= 50){
+                        //如果超出了限制
+                        //删除掉最早存储缓存的数据
+                        //最早存入缓存的数据的键是在index数组的第一位
+                        //使用数组的shift方法可以获取并删除掉数组的第一个元素
+                        var tempKey = index.shift();
+                        //获取到最早加入缓存的这个数据的键，可以使用它将数据从缓存各种删除
+                        delete cache[tempKey];
+                    }
+                }
+                return cache[key];
+            }
+        }
+
+        var eleCache = createCache();
+        eleCache("name","高金彪");
+        console.log(eleCache("name"));
+        var typeCche = createCache();
+
+    </script>
+</head>
+<body>
+<h2>
+    缓存学习
+</h2>
+</body>
+</html>
