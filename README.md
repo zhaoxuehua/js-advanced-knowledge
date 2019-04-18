@@ -1,8 +1,7 @@
 # js-advanced-knowledge
 js-advanced-knowledge and some examples
 
-面向对象的学习 js-键值对组合  相当于面向过程的封装，只是向外界暴露一些属性和方法
-
+面向对象的学习
 https://zhaoxuehua.github.io/js-advanced-knowledge/js-advance/1.html
 
 面向对象的三大特性与四种创建方式  
